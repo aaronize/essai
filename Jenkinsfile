@@ -4,10 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                retry (3) {
-
-                }
-                sh 'flask run'
+            	sh 'go build -o essai-service main.go'
             }
         }
     }
