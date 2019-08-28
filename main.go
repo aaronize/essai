@@ -1,6 +1,9 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"log"
+)
 
 func main() {
 	r := gin.Default()
@@ -9,5 +12,7 @@ func main() {
 			"message": "pong",
 		})
 	})
-	r.Run(":13030") // listen and serve on 0.0.0.0:8080
+	if err := r.Run(":13030"); err != nil { // listen and serve on 0.0.0.0:8080
+		log.Fatal(err)
+	}
 }
