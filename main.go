@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"log"
+	"time"
 )
 
 func main() {
@@ -16,6 +17,18 @@ func main() {
 		c.JSON(200, gin.H{
 			"code": 200,
 			"message": "request success!",
+		})
+	})
+	r.GET("/info", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"code": 200,
+			"message": "success",
+			"data": map[string]interface{} {
+				"service": "essai-api",
+				"create_at": time.Now(),
+				"update_at": time.Now(),
+				"admin": "aaron.test",
+			},
 		})
 	})
 	if err := r.Run(":13030"); err != nil { 
