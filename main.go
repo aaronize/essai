@@ -28,6 +28,7 @@ func main() {
 				"create_at": time.Now(),
 				"update_at": time.Now(),
 				"admin": "aaron.test",
+				"name": "aaron.chen",
 			},
 		})
 	})
