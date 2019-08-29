@@ -12,7 +12,13 @@ func main() {
 			"message": "pong",
 		})
 	})
-	if err := r.Run(":13030"); err != nil { // listen and serve on 0.0.0.0:8080
+	r.GET("/bonjour", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"code": 200,
+			"message": "request success!",
+		})
+	})
+	if err := r.Run(":13030"); err != nil { 
 		log.Fatal(err)
 	}
 }
