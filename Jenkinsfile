@@ -1,4 +1,9 @@
 pipeline {
+    agent {
+        docker {
+            image 'aarondoge/elf-base:latest'
+        }
+    }
     environment {
         UPANGU_AXE = 'dev'
     }
