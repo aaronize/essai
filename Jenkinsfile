@@ -1,10 +1,4 @@
 pipeline {
-    agent {
-        docker {
-            image 'essai-api:latest'
-            args '-d --rm --name upangu-axe -p 15101:15101 -p 15102:15102'
-        }
-    }
     environment {
         UPANGU_AXE = 'dev'
     }
