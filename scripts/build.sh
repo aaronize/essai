@@ -10,7 +10,7 @@ print_log "INFO" "build begins"
 rm -f essai-api
 
 print_log "INFO" "go build"
-go build -o essai-api ./main.go
+CGO_ENABLE=0 go build -a -ldflags '-extldflags "-static"' build -o essai-api ./main.go
 
 print_log "INFO" "docker build"
 docker build -t essai-api:latest .
