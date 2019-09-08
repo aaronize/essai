@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './scripts/build.sh'
+                sh 'sh ./scripts/build.sh'
             }
         }
         stage('Test') {
@@ -23,9 +23,9 @@ pipeline {
                 branch 'develop'
             }
             steps {
-                sh './scripts/deploy.sh development'
+                sh 'sh ./scripts/deploy.sh development'
                 input message: ''
-                sh './scripts/manage.sh stop'
+                sh 'sh ./scripts/manage.sh stop'
             }
         }
         stage('Deploy for production') {
@@ -33,9 +33,9 @@ pipeline {
                 branch 'production'
             }
             steps {
-                sh './scripts/deploy.sh production'
+                sh 'sh ./scripts/deploy.sh production'
                 input message: ''
-                sh './scripts/manage.sh stop'
+                sh 'sh ./scripts/manage.sh stop'
             }
         }
     }
