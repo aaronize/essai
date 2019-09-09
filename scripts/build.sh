@@ -12,12 +12,10 @@ print_log "INFO" "build begins..."
 rm -f essai-api
 
 print_log "INFO" "go build"
-#GO_BUILD -o essai-api ./main.go
-docker run --rm -v /data/jenkins_home/workspace/essai-api:/go/src/essai-api golang:1.12-alpine \
-pwd && go build -a -ldflags '-extldflags "-static"' -o /go/src/essai-apiessai-api /go/src/essai-api/main.go
+go build -a -ldflags '-extldflags "-static"' -o essai-api ./main.go
 
 print_log "INFO" "docker build"
-docker build -t essai-api:latest ../
+docker build -t essai-api:latest .
 
 #echo "---> docker push"
 print_log "INFO" "docker push"

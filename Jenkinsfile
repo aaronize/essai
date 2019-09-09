@@ -5,6 +5,11 @@ pipeline {
     }
     stages {
         stage('Build') {
+            agent {
+                docker {
+                    image 'golang:1.12-alpine'
+                }
+            }
             steps {
                 sh 'sh ./scripts/build.sh'
             }
