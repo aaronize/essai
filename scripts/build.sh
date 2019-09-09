@@ -12,7 +12,7 @@ print_log "INFO" "build begins..."
 rm -f essai-api
 
 print_log "INFO" "go build"
-go build -a -ldflags '-extldflags "-static"' -o essai-api ./main.go
+go build -a -ldflags '-extldflags "-static"' -o /go/src/essai/essai-api /go/src/essai/main.go
 
 print_log "INFO" "docker build"
 docker build -t essai-api:latest .
