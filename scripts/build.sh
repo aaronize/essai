@@ -9,7 +9,7 @@ function print_log() {
 }
 
 print_log "INFO" "build begins..."
-rm -f ../essai-api
+rm -f essai-api
 
 print_log "INFO" "go build"
 #GO_BUILD -o essai-api ./main.go
