@@ -4,17 +4,22 @@ pipeline {
         UPANGU_AXE = 'dev'
     }
     stages {
-        stage('Build') {
+        stage('GoBuild') {
             agent {
                 docker {
                     image 'golang:1.12-alpine'
-                    args '--rm -v /data/jenkins_home/workspace/essai-api:/go/src/essai'
+                    args '--rm -v /data/jenkins_home/workspace/essai-api:/go/src/essai -v /data/go:/go'
                 }
             }
             steps {
-                sh 'sh ./scripts/build.sh'
+                sh 'sh ./scripts/build.sh golang'
             }
         }
+	stage('DockerBuild') {
+	    steps {
+		sh 'sh ./scripts/build.sh docker'
+	    }
+	}
         stage('Test') {
             steps {
                 sh 'echo "testing"'
