@@ -19,7 +19,7 @@ function go_build() {
 
 function docker_build() {
     print_log "INFO" "docker build"
-    docker build -t essai-api:latest .
+    docker build -t aarondoge/essai-api:latest .
 
     #echo "---> docker push"
     print_log "INFO" "docker push"
