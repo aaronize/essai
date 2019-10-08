@@ -23,7 +23,7 @@ function docker_build() {
 
     #echo "---> docker push"
     print_log "INFO" "docker push"
-    docker push aarondoge/essai-api:latest
+#    docker push aarondoge/essai-api:latest
 }
 
 if [[ "$build_type" == "golang" ]]; then
