@@ -4,9 +4,7 @@ pipeline {
     environment {
         UPANGU_AXE = 'dev'
     }
-
     stages {
-
         stage('GoBuild') {
             agent {
                 docker {
@@ -18,19 +16,16 @@ pipeline {
                 sh 'sh ./scripts/build.sh golang'
             }
         }
-
         stage('DockerBuild') {
             steps {
                 sh 'sh ./scripts/build.sh docker'
             }
         }
-
         stage('Test') {
             steps {
                 sh 'echo "testing"'
             }
         }
-
         stage('Delivery for development') {
             when {
                 branch 'develop'
@@ -41,7 +36,6 @@ pipeline {
                 sh 'sh ./scripts/manage.sh stop'
             }
         }
-
         stage('Deploy for production') {
             when {
                 branch 'production'
@@ -52,6 +46,5 @@ pipeline {
                 sh 'sh ./scripts/manage.sh stop'
             }
         }
-
     }
 }
