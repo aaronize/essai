@@ -11,7 +11,7 @@ pipeline {
             agent {
                 docker {
                     image 'golang:1.12-alpine'
-                    args '-v /data/jenkins_home/workspace/essai-api:/go/src/essai -v /data/go:/go'
+                    args '--rm -v /data/jenkins_home/workspace/essai-api:/go/src/essai -v /data/go:/go'
                 }
             }
             steps {
