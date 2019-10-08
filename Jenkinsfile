@@ -25,7 +25,15 @@ pipeline {
                 sh 'echo "testing"'
             }
         }
-        stage('Delivery for development') {
+        stage('Deploy for master') {
+            when {
+                branch 'master'
+            }
+            steps {
+                sh 'sh ./scripts/deploy.sh development'
+            }
+        }
+        stage('Deploy for development') {
             when {
                 branch 'develop'
             }
