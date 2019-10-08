@@ -1,6 +1,5 @@
 pipeline {
-    # agent none
-    agent any
+    agent none
     environment {
         UPANGU_AXE = 'dev'
     }
