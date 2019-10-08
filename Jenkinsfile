@@ -1,30 +1,36 @@
 pipeline {
-    agent none
+    # agent none
+    agent any
     environment {
         UPANGU_AXE = 'dev'
     }
+
     stages {
+
         stage('GoBuild') {
             agent {
                 docker {
                     image 'golang:1.12-alpine'
-                    args '--rm -v /data/jenkins_home/workspace/essai-api:/go/src/essai -v /data/go:/go'
+                    args '-v /data/jenkins_home/workspace/essai-api:/go/src/essai -v /data/go:/go'
                 }
             }
             steps {
                 sh 'sh ./scripts/build.sh golang'
             }
         }
-	stage('DockerBuild') {
-	    steps {
-		sh 'sh ./scripts/build.sh docker'
-	    }
-	}
+
+        stage('DockerBuild') {
+            steps {
+                sh 'sh ./scripts/build.sh docker'
+            }
+        }
+
         stage('Test') {
             steps {
                 sh 'echo "testing"'
             }
         }
+
         stage('Delivery for development') {
             when {
                 branch 'develop'
@@ -35,6 +41,7 @@ pipeline {
                 sh 'sh ./scripts/manage.sh stop'
             }
         }
+
         stage('Deploy for production') {
             when {
                 branch 'production'
@@ -45,5 +52,6 @@ pipeline {
                 sh 'sh ./scripts/manage.sh stop'
             }
         }
+
     }
 }
