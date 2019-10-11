@@ -10,6 +10,7 @@ function print_log() {
 }
 
 print_log "INFO" "build begins..."
+
 function go_build() {
     rm -f essai-api
 
