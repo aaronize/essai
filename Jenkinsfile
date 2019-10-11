@@ -12,6 +12,7 @@ pipeline {
                 }
             }
             steps {
+                sh 'cp -rf /go/src/essai/vendor/* /go/src'
                 sh 'sh ./scripts/build.sh golang'
             }
         }
