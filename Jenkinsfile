@@ -12,7 +12,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'sh ./scripts/build.sh golang'
+                sh 'bash ./scripts/build.sh golang'
             }
         }
         stage('DockerBuild') {
