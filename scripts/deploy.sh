@@ -13,6 +13,8 @@ function print_error_log() {
 }
 
 function development() {
+    print_info_log "stopping docker..."
+    docker stop essai-api
     print_info_log "development deploy begin..."
     docker run -d --rm --network=host --name essai-api -p 13030:13030 essai-api:latest # >/dev/null 2>&1
 }
