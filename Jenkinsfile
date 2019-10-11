@@ -25,10 +25,7 @@ pipeline {
                 sh 'echo "testing"'
             }
         }
-        stage('Deploy for master') {
-            when {
-                branch 'master'
-            }
+        stage('Deploy') {
             steps {
                 sh 'sh ./scripts/deploy.sh development'
             }
