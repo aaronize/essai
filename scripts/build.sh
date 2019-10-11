@@ -14,7 +14,7 @@ function go_build() {
     rm -f essai-api
 
     print_log "INFO" "go build"
-    CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' -o /go/src/essai/essai-api /go/src/essai/main.go
+    CGO_ENABLED=0 GO111MODULE=on go build -a -ldflags '-extldflags "-static"' -o /go/src/essai/essai-api /go/src/essai/main.go
 }
 
 function docker_build() {

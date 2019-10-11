@@ -7,12 +7,11 @@ pipeline {
         stage('GoBuild') {
             agent {
                 docker {
-                    image 'golang:1.12-alpine'
+                    image 'golang:latest'
                     args '-v /data/jenkins_home/workspace/essai-api:/go/src/essai'
                 }
             }
             steps {
-                sh 'cp -rf /go/src/essai/vendor/* /go/src'
                 sh 'sh ./scripts/build.sh golang'
             }
         }
