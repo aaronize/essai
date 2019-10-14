@@ -18,7 +18,8 @@ function go_build() {
     # 1. 关闭CGO避免编译的时候依赖gcc
     # 2. 打开module使编译优先使用vendor的依赖（不用go get了，go get一方面需要联网，另一方面又依赖git）
     # 3. 完全静态编译，尽量减少编译出的可执行文件对运行环境的依赖
-    CGO_ENABLED=0 GO111MODULE=on go build -a -ldflags '-extldflags "-static"' -o /go/src/essai/essai-api /go/src/essai/main.go
+    CGO_ENABLED=0 GO111MODULE=on go build -a -ldflags '-extldflags "-static"' \
+        -o /go/src/essai/essai-api /go/src/essai/cmd/essaid/main.go
 }
 
 function docker_build() {
