@@ -23,6 +23,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'echo "testing"'
+                sh 'go test'
             }
         }
         stage('Deploy') {
