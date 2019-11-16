@@ -30,7 +30,7 @@ func main() {
                 "admin": "aaron.test",
                 "name": "aaron.chen",
                 "location": "sh,cn",
-                "region": "ea",
+                "region": "East Asia",
                 "company": "None",
             },
         })
