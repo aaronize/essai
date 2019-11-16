@@ -30,6 +30,7 @@ func main() {
                 "admin": "aaron.test",
                 "name": "aaron.chen",
                 "location": "yp,sh,cn",
+                "company": "None",
             },
         })
     })
