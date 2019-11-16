@@ -7,8 +7,8 @@ steps:
   - name: essai-api
     image: golang:1.12
     commands:
-      - go build -o essai-api cmd/essaid/main.go
-      - go run essai-api
+      - go build
+      - go test
 
   trigger:
     branch:
