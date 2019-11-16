@@ -29,8 +29,8 @@ func main() {
                 "update_at": time.Now(),
                 "admin": "aaron.test",
                 "name": "aaron.chen",
-                "location": "yp,sh,cn",
-                "company": "NoneType",
+                "location": "sh,cn",
+                "company": "None",
             },
         })
     })
