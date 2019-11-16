@@ -1,0 +1,17 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: essai-api
+    image: golang:1.12
+    commands:
+      - go build -o essai-api cmd/essaid/main.go
+      - go run essai-api
+
+  trigger:
+    branch:
+      - master
+    event:
+      - push
