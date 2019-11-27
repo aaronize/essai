@@ -29,7 +29,7 @@ func main() {
                 "update_at": time.Now(),
                 //"admin": "aaron.test",
                 "name": "aaron.chen",
-                "location": "sh,cn",
+                "location": "shanghai",
                 "region": "East Asia",
                 "company": "None",
             },
