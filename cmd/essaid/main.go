@@ -27,7 +27,6 @@ func main() {
                 "service": "essai-api",
                 "create_at": time.Now(),
                 "update_at": time.Now(),
-                //"admin": "aaron.test",
                 "name": "aaron.chen",
                 "location": "shanghai",
                 "region": "East Asia",
