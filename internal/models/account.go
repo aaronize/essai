@@ -20,53 +20,118 @@ type Accounts struct {
 }
 
 func (a *Accounts) Add() error {
-    return a.add(db.WDB())
+    return a.add(db.WDB(), nil)
 }
 
 func (a *Accounts) Update() error {
-    return a.update(db.WDB())
+    return a.update(db.WDB(), nil)
 }
 
 func (a *Accounts) Delete() error {
-    return a.delete(db.WDB())
+    return a.delete(db.WDB(), nil)
 }
 
 func (a *Accounts) List() error {
-    return a.list(db.RDB())
+    return a.list(db.RDB(), nil)
 }
 
 func (a *Accounts) AddWithTransaction(tx *gorm.DB) error {
-    return a.add(tx)
+    return a.add(tx, nil)
 }
 
 func (a *Accounts) DeleteWithTransaction(tx *gorm.DB) error {
-    return a.delete(tx)
+    return a.delete(tx, nil)
 }
 
 func (a *Accounts) UpdateWithTransaction(tx *gorm.DB) error {
-    return a.update(tx)
+    return a.update(tx, nil)
 }
 
 func (a *Accounts) ListWithTransaction(tx *gorm.DB) error {
-    return a.list(tx)
+    return a.list(tx, nil)
 }
 
-func (a *Accounts) add(db *gorm.DB) error {
+func (a *Accounts) add(db *gorm.DB, mp *AccountMap) error {
+    var i Model
+    if mp == nil {
+        i = mp
+    } else {
+        i = a
+    }
+
+    if err := db.Model(&Accounts{}).Create(i).Error; err != nil {
+        return err
+    }
 
     return nil
 }
 
-func (a *Accounts) update(db *gorm.DB) error {
+func (a *Accounts) update(db *gorm.DB, mp *AccountMap) error {
+    var i Model
+    if mp == nil {
+        i = mp
+    } else {
+        i = a
+    }
+
+    if err := db.Model(&Accounts{}).Updates(i).Error; err != nil {
+        return err
+    }
 
     return nil
 }
 
-func (a *Accounts) delete(db *gorm.DB) error {
+func (a *Accounts) delete(db *gorm.DB, mp *AccountMap) error {
+    var i Model
+    if mp == nil {
+        i = mp
+    } else {
+        i = a
+    }
+
+    if err := db.Model(&Accounts{}).Delete(i).Error; err != nil {
+        return err
+    }
 
     return nil
 }
 
-func (a *Accounts) list(db *gorm.DB) error {
+func (a *Accounts) list(db *gorm.DB, mp *AccountMap) error {
 
     return nil
+}
+
+// map
+type AccountMap map[string]interface{}
+
+func (am *AccountMap) Add() error {
+    return (&Accounts{}).add(db.WDB(), am)
+}
+
+func (am *AccountMap) Update() error {
+    return (&Accounts{}).update(db.WDB(), am)
+}
+
+func (am *AccountMap) Delete() error {
+    return (&Accounts{}).delete(db.WDB(), am)
+}
+
+func (am *AccountMap) List() error {
+    return (&Accounts{}).list(db.RDB(), am)
+}
+
+func (am *AccountMap) AddWithTransaction(tx *gorm.DB) error {
+    return (&Accounts{}).add(tx, am)
+}
+
+func (am *AccountMap) DeleteWithTransaction(tx *gorm.DB) error {
+    return (&Accounts{}).delete(tx, am)
+}
+
+func (am *AccountMap) UpdateWithTransaction(tx *gorm.DB) error {
+    return (&Accounts{}).update(tx, am)
+}
+
+func (am *AccountMap) ListWithTransaction(tx *gorm.DB) error {
+    return (&Accounts{}).list(tx, am)
 }

@@ -14,6 +14,21 @@ func NewManager() *Manager {
     return &Manager{}
 }
 
+func (m *Manager) Add(ins ...Model) (int, error) {
+    if len(ins) == 0 {
+        return 0, nil
+    }
+
+    tx := db.WDB().Begin()
+    for _, i := range ins {
+        if err := i.AddWithTransaction(tx); err != nil {
+            tx.Rollback()
+            return 0, err
+        }
+    }
+    return len(ins), tx.Commit().Error
+}
+
 func (m *Manager) Update(ins ...Model) (int, error) {
     if len(ins) == 0 {
         return 0, nil
@@ -38,6 +53,11 @@ func (m *Manager) Delete(ins ...Model) (int, error) {
 
 
     return 0, nil
+}
+
+func (m *Manager) List(ins Model) ([]Model, error) {
+
+    return nil, nil
 }
 
 //
