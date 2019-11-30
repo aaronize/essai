@@ -108,3 +108,5 @@ venv.bak/
 
 essai-api
 *.exe
+
+vendor
