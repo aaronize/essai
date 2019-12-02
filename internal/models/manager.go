@@ -1,13 +1,19 @@
 package models
 
-import "github.com/aaronize/essai/pkg/db"
+import (
+    "github.com/aaronize/essai/pkg/db"
+)
 
-type ManagerOption interface {
-    apply()
+type Options interface {
+    apply(opt *managerOpt)
+}
+
+type managerOpt struct {
+    queryCondition
 }
 
 type Manager struct {
-    query queryCondition
+    opt     *managerOpt
 }
 
 func NewManager() *Manager {
@@ -55,7 +61,12 @@ func (m *Manager) Delete(ins ...Model) (int, error) {
     return 0, nil
 }
 
-func (m *Manager) List(ins Model) ([]Model, error) {
+func (m *Manager) ListAll(ins Model) ([]Model, error) {
+
+    return nil, nil
+}
+
+func (m *Manager) GetBy(ins Model, by map[string]interface{}) ([]Model, error) {
 
     return nil, nil
 }
