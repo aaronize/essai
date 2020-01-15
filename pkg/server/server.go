@@ -46,7 +46,7 @@ func (s *Server) listenAndServe(ctx context.Context) error {
     go func() {
         select {
         case <-ctx.Done():
-            log.Println("Shutting down http server...")
+            log.Println("Shutting down http launcher...")
             _ = sh.Shutdown(ctx)
             return
         }
