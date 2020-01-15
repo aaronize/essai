@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package protos;
+
+// response body
+message AgentResponse {
+    message Meta {
+        uint32 code = 1;
+        string error = 2;
+    }
+    Meta meta = 1;
+    string data = 2;
+}
+
+// request body
+message CreateTaskRequest {
+    string id = 1;
+    string name = 2;
+    string type = 3;
+    bool is_emergency = 4;
+}
+
+message CancelTaskRequest {
+    string id = 1;
+    bool is_emergency = 2;
+}
+
+// service
+service Agent {
+    rpc CreateTask  (CreateTaskRequest)     returns (AgentResponse) {}
+    rpc CancelTask  (CancelTaskRequest)     returns (AgentResponse) {}
+}
+
+// command:
+// protoc --go_out=plugins=grpc:. internal\protos\agent.proto

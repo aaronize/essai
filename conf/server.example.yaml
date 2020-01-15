@@ -1,0 +1,39 @@
+---
+server:
+  listen: :15103
+
+queue:
+  consumer:
+    enable: true              # Default false
+    hosts:
+      - "192.168.0.100:9092"
+      - "192.168.0.101:9092"
+      - "192.168.0.102:9092"
+    topic: ser_top
+  producer:
+    enable: true              # Default false
+    hosts:
+      - "192.168.0.100:9092"
+      - "192.168.0.101:9092"
+      - "192.168.0.102:9092"
+    topic: ser_recv
+    retry: 3
+
+database:
+  host: 192.168.0.111
+  db: service
+  user: remote_rw
+  password: 1234567root
+  port: 3306
+
+apis:
+  server1-api:
+    url: http://localhost:15100/api/v1/service/
+    token: abcdefghigklmn
+  server2-api:
+    url: http://
+    token: abcdefghigklmn
+
+poll:
+  enable: true      # default true
+  interval: 600     # default 600 seconds

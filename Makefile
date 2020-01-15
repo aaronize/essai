@@ -1,71 +1,50 @@
-# To test, build, deploy offline-tasks
-#   -: ignore this commnad error
-#   @: no display current commnad to std output
+#!/usr/bin/env bash
 
-# Commnads declare
-GOCMD=go
-GOTEST=$(GOCMD) test
-GOBUILD=$(GOCMD) build
+set -e
 
-# Params define
-MAIN_PATH=../main
-PACKAGE_PATH=../package
-PACKAGE_BIN_PATH=../package/bin
-BIN=offline-tasks
-FILENAME=offline-tasks.tar.gz
+#source /root/.bashrc
 
-# Deploy Params
-DEV_HOST=zy-dev
-DEV_TAR_PATH=/home/worker/project/offline-tasks
+version=`git describe --abbrev=0 --tags`
+echo "Build Version: ${version}"
+#go_version=`go version`
+#commit=`git log --pretty=format:"%h" -1`
+#date=`date +'%Y-%m-%d %H:%M:%S'`
+#branch=`git rev-parse --abbrev-ref HEAD`
+#
+#go build -mod=vendor -o bin/order-api -ldflags "-X 'main.version=${version}' -X 'main.goVersion=${go_version}' -X 'main.commit=${commit}' -X 'main.date=${date}'" cmd/main.go
 
-PROD_HOST=zy-pro2
-PROD_TAR_PATH=/home/worker/project/offline-tasks
+make
 
-default: build pack
+elderImageId=`docker images | grep 'order-api' | grep 'latest'| awk '{print $3}'`
+docker build -t hub.ucloudadmin.com/upangu/order-api:latest .
 
-test:
-  # testing
-  - $(GOTEST) ../... -v
+# stop and rm container
+#isRunningContainer=`docker ps | grep -c 'order-api'`
+isRunningContainer=`docker ps | grep 'order-api' | wc -l`
+if [[ ${isRunningContainer} -gt 0 ]]; then
+    containerId=`docker ps -a | grep 'order-api' | awk '{print $1}'`
+    echo "Stopping container ${containerId} ... "
+    docker stop order-api
+    echo "Removing container ${containerId} ... "
+    docker rm order-api
+fi
 
-build:
-  # building
-  mkdir $(PACKAGE_PATH)
-  mkdir $(PACKAGE_BIN_PATH)
-  cd $(MAIN_PATH) && $(GOBUILD) -o $(BIN)
-  mv "$(MAIN_PATH)/$(BIN)" $(PACKAGE_BIN_PATH)
-  cp -r "../configs" $(PACKAGE_PATH)
-  cp "../sh/start.sh" $(PACKAGE_BIN_PATH)
+currentImageId=`docker images | grep 'order-api' | grep 'latest'| awk '{print $3}'`
+if [[ "$elderImageId" != "$currentImageId" ]]; then
+    echo "Removing previous image ${elderImageId} ..."
+    docker rmi ${elderImageId}
+fi
 
-pack:
-  # packing
-  cd $(PACKAGE_PATH) && tar -zcvf ../$(FILENAME) ./*
-  mv ../$(FILENAME) $(PACKAGE_PATH)
+docker run \
+    --name order-api \
+    --detach \
+    --restart=always \
+    --publish 15103:15103 \
+    hub.ucloudadmin.com/upangu/order-api:latest
 
+if [[ ${DEVELOPMENTENV} == host ]]; then
+    docker tag hub.ucloudadmin.com/upangu/order-api:latest hub.ucloudadmin.com/upangu/order-api:${version}
+    docker push hub.ucloudadmin.com/upangu/order-api:${version}
+fi
 
-##################################################
-#                                                #
-#   deploy:         from zy-dev to execute       #
-#   deploy-dev:     from dev-CI to execute       #
-#   deploy-prod:    from prod-CI to execute      #
-#                                                #
-##################################################
-
-deploy: clean build pack
-  # deploy dev from dev
-  cp $(PACKAGE_PATH)/$(FILENAME) $(DEV_TAR_PATH)
-  cd $(DEV_TAR_PATH) && tar zxvf $(FILENAME) && supervisorctl -c configs/dev.supervisord.conf restart offline-tasks
-
-deploy-dev: clean build pack
-  # deploy-dev from CI
-  scp $(PACKAGE_PATH)/$(FILENAME) $(DEV_HOST):$(DEV_TAR_PATH)
-  ssh $(DEV_HOST) "cd $(DEV_TAR_PATH) && tar zxvf $(FILENAME) && supervisorctl -c configs/dev.supervisord.conf restart offline-tasks"
-
-deploy-prod: clean build pack
-  # deploying prod from dev or CI
-  scp $(PACKAGE_PATH)/$(FILENAME) $(PROD_HOST):$(PROD_TAR_PATH)
-  ssh $(PROD_HOST) "cd $(PROD_TAR_PATH) && tar zxvf $(FILENAME) && supervisorctl -c configs/prod.supervisord.conf restart offline-tasks"
-
-clean:
-  # cleaning
-  rm -fr $(PACKAGE_PATH)
-  rm -fr ../$(FILENAME)
+echo "Application was integrated and deployed SUCCESSFULLY! - ${DEVELOPMENTENV}"
