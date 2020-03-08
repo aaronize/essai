@@ -48,7 +48,7 @@ var rootCMD = &cobra.Command{
         cancel()
 
         time.Sleep(100)
-        log.Println("clean-api service CLOSED!\n Bye!(๑╹◡╹)/\"\"\"")
+        log.Println("essaid service CLOSED!\n Bye!(๑╹◡╹)/\"\"\"")
     },
 }
 
